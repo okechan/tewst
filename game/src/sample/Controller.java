@@ -72,6 +72,14 @@ public class Controller implements Initializable{
     private int[][] Replace(int a,int b,int c,int[][] basyo){
         if(c==1) {
             basyo[a][b] = 2;
+            basyo[a-1][b-1]=5;
+            basyo[a-1][b]=5;
+            basyo[a-1][b+1]=5;
+            basyo[a][b-1]=5;
+            basyo[a][b+1]=5;
+            basyo[a+1][b-1]=5;
+            basyo[a+1][b]=5;
+            basyo[a+1][b+1]=5;
             return basyo;
         }else if(c==2) {
             for (int i = a; i <a+ 2; i++) {
