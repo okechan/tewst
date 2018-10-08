@@ -8,17 +8,20 @@ import javafx.fxml.Initializable;
 public class Controller implements Initializable{
     private final Random random = new Random();
     int a,b,c,d,e,f,g,h,k;
-    int flag=0;
+    boolean flag;
     int basyo[][]={
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1}
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
     };
 
     @Override
@@ -29,14 +32,15 @@ public class Controller implements Initializable{
     public void start(){
         basyo=Thirdfield(basyo);
         for(int i=0;i<2;i++) {
-            basyo=secondfield(basyo);
+          basyo=secondfield(basyo);
         }
-        for (int i=0;i<3;i++){
-          basyo=firstfield(basyo);
+        for (int i=0;i<3;i++) {
+            basyo = firstfield(basyo);
         }
-       // basyo=Cheaker(basyo);
         print(basyo);
     }
+
+
     private int[][] Thirdfield(int[][] basyo){
         a=random.nextInt(7)+1;
         b=random.nextInt(7)+1;
@@ -46,90 +50,95 @@ public class Controller implements Initializable{
     }
     private int[][] secondfield(int[][] basyo){
         do {
-            d = random.nextInt(7) + 1;
-            e = random.nextInt(7) + 1;
+            d = random.nextInt(8)+1;
+            e = random.nextInt(8)+1;
             f = 2;
-
-            //フラッグ作って2見たらダメな部分(d,e=1,8)の場合を考えて条件文を作成．疲れた
-
-        }while(basyo[d-1][e-1]!=1&&basyo[d-1][e]!=1&&basyo[d-1][e+1]!=1&&basyo[d-1][e+2]!=1&&basyo[d][e-1]!=1&&basyo[d][e+2]!=1&&basyo[d+1][e-1]!=1&&basyo[d+1][e+2]!=1&&basyo[d+2][e-1]!=1&&basyo[d+2][e]!=1&&basyo[d+2][e+1]!=1&&basyo[d+2][e+2]!=1&&basyo[d][e]!=1&&basyo[d+1][e+1]!=1&&basyo[d][e+1]!=1&&basyo[d+1][e]!=1);
+            flag=check(d,e,f);
+        }while(!flag);
         basyo = Replace(d, e, f, basyo);
         return basyo;
     }
     private int[][] firstfield(int[][] basyo){
         do {
-            d = random.nextInt(7) + 1;
-            e = random.nextInt(7) + 1;
+            d = random.nextInt(10)+1;
+            e = random.nextInt(10)+1;
             f = 1;
-        }while(basyo[d][e]!=1);
+            flag=check(d,e,f);
+        }while(!flag);
         basyo = Replace(d, e, f, basyo);
         return basyo;
     }
 
     private int[][] Replace(int a,int b,int c,int[][] basyo){
-        switch(c){
-            case 1:
-                basyo[a][b]=2;
-                return basyo;
-            case 2:
-                basyo[a][b]=3;
-                basyo[a][b+1]=3;
-                basyo[a+1][b]=3;
-                basyo[a+1][b+1]=3;
-                return basyo;
-            case 3:
-                basyo[a][b]=4;
-                basyo[a-1][b-1]=4;
-                basyo[a-1][b]=4;
-                basyo[a-1][b+1]=4;
-                basyo[a][b-1]=4;
-                basyo[a][b+1]=4;
-                basyo[a+1][b-1]=4;
-                basyo[a+1][b]=4;
-                basyo[a+1][b+1]=4;
-                return basyo;
-            default:
+        if(c==1) {
+            basyo[a][b] = 2;
+            return basyo;
+        }else if(c==2) {
+            for (int i = a; i <a+ 2; i++) {
+                for (int j = b; j <b+ 2; j++) {
+                    basyo[i][j] = 3;
+                }
+            }
+            basyo[a - 1][b - 1] = 5;
+            basyo[a - 1][b] = 5;
+            basyo[a - 1][b + 1] = 5;
+            basyo[a - 1][b + 2] = 5;
+            basyo[a][b - 1] = 5;
+            basyo[a][b + 2] = 5;
+            basyo[a + 1][b - 1] = 5;
+            basyo[a + 1][b + 2] = 5;
+            basyo[a + 2][b - 1] = 5;
+            basyo[a + 2][b] = 5;
+            basyo[a + 2][b + 1] = 5;
+            basyo[a + 2][b + 2] = 5;
+            return basyo;
+        }else if(c==3) {
+            for (int i = a; i <a+ 3; i++) {
+                for (int j = b; j <b+ 3; j++) {
+                    basyo[i][j] = 4;
+                }
+            }
+            basyo[a - 1][b - 1] = 5;
+            basyo[a - 1][b] = 5;
+            basyo[a - 1][b + 1] = 5;
+            basyo[a - 1][b + 2] = 5;
+            basyo[a - 1][b + 3] = 5;
+            basyo[a][b - 1] = 5;
+            basyo[a][b + 3] = 5;
+            basyo[a + 1][b - 1] = 5;
+            basyo[a + 1][b + 3] = 5;
+            basyo[a + 2][b - 1] = 5;
+            basyo[a + 2][b + 3] = 5;
+            basyo[a + 3][b - 1] = 5;
+            basyo[a + 3][b] = 5;
+            basyo[a + 3][b + 1] = 5;
+            basyo[a + 3][b + 2] = 5;
+            basyo[a + 3][b + 3] = 5;
+            return basyo;
+        }else{
                 System.out.println("値が正しくありません");
-                break;
         }
         return basyo;
-    }
-    private void Reset(){
-        a=0;b=0;c=0;d=0;e=0;f=0;g=0;h=0;k=0;
-       for(int i=0;i<9;i++){
-           for(int j=0;j<9;j++){
-               basyo[i][j]=1;
-           }
-       }
-       start();
     }
 
-   private int[][] Cheaker(int[][] basyo){
-        int vert_count=0,hori_count=0;
-        for(int i=0;i<9;i++){
-            for(int j=0;j<8;j++){
-                hori_count+=Math.abs(basyo[i][j]-basyo[i][j+1]);
-            }
-        }
-        for(int i=0;i<8;i++){
-            for(int j=0;j<9;j++){
-                vert_count+=Math.abs(basyo[i][j]-basyo[i+1][j]);
-            }
-        }
-        if(hori_count!=40||vert_count!=39){
-            hori_count=0;
-            vert_count=0;
-            Reset();
-        }
-        return basyo;
-    }
     private void print(int[][] basyo){
-        for (int i=0;i<9;i++){
-            for(int j=0;j<9;j++){
+        for (int i=0;i<12;i++){
+            for(int j=0;j<12;j++){
                 System.out.print(basyo[i][j]);
             }
             System.out.println("");
         }
+    }
+
+    private boolean check(int x,int y,int n){
+        for(int i=x-1;i<n+x;i++){
+            for(int j=y-1;j<n+y;j++){
+                if(basyo[i][j]!=1){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 
